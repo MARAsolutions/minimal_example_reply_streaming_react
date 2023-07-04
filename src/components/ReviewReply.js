@@ -219,7 +219,7 @@ const ReviewReply = () => {
                         Reply to (optional)
                     </h2>
                     <div className="my-2 p-4">
-                        <b className="block font-bold text-xs">Name of the person writing the response</b>
+                        <b className="block font-bold text-xs">Person to address in the reply</b>
                         <input
                             type="text"
                             value={replyTo}
