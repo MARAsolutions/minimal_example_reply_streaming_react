@@ -5,7 +5,7 @@ import Pusher from 'pusher-js'
 import { v4 as uuidv4 } from 'uuid'
 
 const ReviewReply = () => {
-    const [input, setInput] = useState('Great hotel, but the check-in was very slow. The location is perfect for a weekend trip to London.')
+    const [input, setInput] = useState('Tanto las instalaciones como el personal estuvieron muy por encima de nuestras expectativas. La ubicación de este hotel es estratégica, en el centro de los lugares que puedes visitar... y si no, el transporte estaba a unos pasos. La única pega fue, que faltaba un desayuno vegano.')
     const [channelName, setChannelName] = useState('')
     const [channel, setChannel] = useState([])
     const [messages, setMessages] = useState('')
@@ -14,10 +14,11 @@ const ReviewReply = () => {
     const [isCopied, setIsCopied] = useState(false)
     const [apiUrl, setApiUrl] = useState('')
     const [jwt, setJwt] = useState('')
-    const [smartSnippetTopic, setSmartSnippetTopic] = useState('')
-    const [smartSnippetReply, setSmartSnippetReply] = useState('')
-    const [signature, setSignature] = useState('')
-    const [replyTo, setReplyTo] = useState('')
+    const [smartSnippetTopic, setSmartSnippetTopic] = useState('no vegan breakfast')
+    const [smartSnippetReply, setSmartSnippetReply] = useState('We provide vegan breakfast, but you need to tell us in advance.')
+    const [signature, setSignature] = useState('Your Syte Hotel Mannheim')
+    const [businessType, setBusinessType] = useState('Syte Hotel Mannheim')
+    const [replyTo, setReplyTo] = useState('Ingo')
     const [language, setLanguage] = useState(null)
 
     const generateReviewReply = () => {
@@ -35,7 +36,7 @@ const ReviewReply = () => {
                 user_id: '',
                 profile_id: '',
                 reply_model_id: 'latest-stable-version',
-                business_type: 'MyHotelName',
+                business_type: businessType,
                 tone_of_voice: 1,
                 response_length: 1,
                 reply_language: language == null ? null : language.toUpperCase(),
@@ -200,6 +201,21 @@ const ReviewReply = () => {
 
                 <div className="border border-gray-200 rounded mb-6">
                     <h2 className="font-bold uppercase text-xs p-4 bg-gray-50 border-b border-gray-200 rounded-t">
+                        Business type (optional)
+                    </h2>
+                    <div className="my-2 p-4">
+                        <b className="block font-bold text-xs">What business is being reviewed</b>
+                        <input
+                            type="text"
+                            value={businessType}
+                            onChange={e => setBusinessType(e.target.value)}
+                            className="bg-gray-50 rounded border border-gray-200 p-2 mt-1 w-full"
+                        />
+                    </div>
+                </div>
+
+                <div className="border border-gray-200 rounded mb-6">
+                    <h2 className="font-bold uppercase text-xs p-4 bg-gray-50 border-b border-gray-200 rounded-t">
                         Reply to (optional)
                     </h2>
                     <div className="my-2 p-4">
@@ -224,7 +240,7 @@ const ReviewReply = () => {
                             onChange={e => setLanguage(e.target.value)}
                             className="bg-gray-50 rounded border border-gray-200 p-2 mt-1 w-full"
                         >
-                            <option value="null">Automatisch</option>
+                            <option value="null">Automatic</option>
                             <option value="de">Deutsch</option>
                             <option value="en">Englisch</option>
                             <option value="es">Spanisch</option>
@@ -275,8 +291,26 @@ const ReviewReply = () => {
                     </h2>
                     <div className="p-4">
                         {metadata.summary && (
-                            <div dangerouslySetInnerHTML={{__html: metadata.summary}} />
+                            <div dangerouslySetInnerHTML={{ __html: metadata.summary }} />
                         )}
+                    </div>
+                </div>
+
+                <div className="border border-gray-200 rounded mt-4">
+                    <h2 className="font-bold uppercase text-xs p-4 bg-gray-50 border-b border-gray-200 rounded-t">
+                        Applied Smart Snippets
+                    </h2>
+                    <div className="p-4">
+                        {Object.entries(metadata).map(([key, value]) => {
+                            if (typeof value === 'object') {
+                                return Object.entries(value).map(([innerKey, innerValue], index) => (
+                                    <p key={innerKey}>
+                                        <b> Snippet #{parseInt(innerKey) + 1}:</b> <span dangerouslySetInnerHTML={{ __html: formatValue(innerValue) }}></span>
+                                    </p>
+                                ));
+                            }
+                            return null;
+                        })}
                     </div>
                 </div>
             </div>

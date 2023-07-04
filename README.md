@@ -1,6 +1,18 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Minimal Example MARA streaming
+
+The following app is a minimal example of streaming review replies with MARA. If you have any questions, please contact i.lange@mara.solutions.
+
+The JWT token provided manually here should be generated and updated by your backend in production as needed.
+
+In production, the smart snippets, which can be set directly here for simplicity, should be sent via a settings profile.
+
+The app is deployed at [https://master.d1atb5vz3np8b4.amplifyapp.com/](https://master.d1atb5vz3np8b4.amplifyapp.com/).
+
 
 ## Getting Started
+
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
 
 First, run the development server:
 
